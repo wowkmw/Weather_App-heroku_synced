@@ -15,7 +15,9 @@ weatherForm.addEventListener('submit', (e) => {
             }
             document.querySelector('.weather_result').innerHTML = `Location: &nbsp${data.location}<br><br>
             Forecast: &nbsp${data.description}<br><br>
-            Current Temperature: &nbsp${data.currentTemp}`;
+            Current Temperature: &nbsp${data.currentTemp}<br><br>
+            UV index: &nbsp${data.uvindex}<br><br>
+            Humidity: &nbsp${data.humidity}`;
         });
     });
 });

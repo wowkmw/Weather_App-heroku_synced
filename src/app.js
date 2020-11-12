@@ -61,7 +61,9 @@ app.get('/weather', (req, res) => { //this is the weather API handler
             forecast(lat, lon, (error, {
                 description,
                 currentTemp,
-                feelslike
+                feelslike,
+                uvindex,
+                humidity
             } = {}) => {
                 if (error) {
                     res.send({
@@ -72,7 +74,9 @@ app.get('/weather', (req, res) => { //this is the weather API handler
                     location,
                     description,
                     currentTemp,
-                    feelslike
+                    feelslike,
+                    uvindex,
+                    humidity
                 });
             });
         });
