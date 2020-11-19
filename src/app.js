@@ -5,9 +5,9 @@ const forecast = require('./utils/forecast');
 const geocode = require('./utils/geocode');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; //process.env.PORT so that the app works on heroku server, which can have any port as it assigns
 
-//define paths for express configuration
+//define paths for express configuration, '__dirname' points to the current path of this app.js file
 const publicDir = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
@@ -17,9 +17,10 @@ app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 hbs.registerPartials(partialsPath);
 
-//setup static dir to serve
+//setup static dir to serve such as our images and css js scripts
 app.use(express.static(publicDir));
 
+//setup routing for our webserver, currently only get requests
 app.get('', (req, res) => {
     res.render('index', {
         title: 'Weather App',
@@ -83,24 +84,33 @@ app.get('/weather', (req, res) => { //this is the weather API handler
     }
 });
 
-app.get('/products', (req, res) => {
-    if (!req.query.search) {
-        //use return to stop code from executing outside of the if block
-        //same as putting the rest of the codes inside an else block
-        return res.send({
-            error: "search term must be provided"
-        });
-    }
-    console.log(req.query);
-    res.send({
-        products: []
-    });
-});
+//testing only
+// app.get('/products', (req, res) => {
+//     if (!req.query.search) {
+//         //use return to stop code from executing outside of the if block
+//         //same as putting the rest of the codes inside an else block
+//         return res.send({
+//             error: "search term must be provided"
+//         });
+//     }
+//     console.log(req.query);
+//     res.send({
+//         products: []
+//     });
+// });
 
 app.get('/help/*', (req, res) => {
     res.render('404', {
         title: '404',
         errorMsg: 'Help article not found',
+        name: 'Jim Kuo'
+    });
+});
+
+app.get('/about/*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        errorMsg: 'Nothing to show here...',
         name: 'Jim Kuo'
     });
 });
