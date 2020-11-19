@@ -18,6 +18,12 @@ weatherForm.addEventListener('submit', (e) => {
             Current Temperature: &nbsp${data.currentTemp}<br><br>
             UV index: &nbsp${data.uvindex}<br><br>
             Humidity: &nbsp${data.humidity}`;
+        }).catch((err) => {
+            document.querySelector('.weather_result').textContent = 'Unexpected internal error, please try again.';
+            console.log(err);
         });
+    }).catch((err) => {
+        document.querySelector('.weather_result').textContent = 'Connection to the server is lost, please try again.';
+        console.log(err);
     });
 });
