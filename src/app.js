@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const hbs = require('hbs');
 const forecast = require('./utils/forecast');
@@ -19,6 +20,7 @@ hbs.registerPartials(partialsPath);
 
 //setup static dir to serve such as our images and css js scripts
 app.use(express.static(publicDir));
+app.use(bodyParser.json());
 
 //setup routing for our webserver, currently only get requests
 app.get('', (req, res) => {
@@ -40,6 +42,50 @@ app.get('/help', (req, res) => {
         title: 'Help Page',
         name: 'Jim Kuo'
     });
+});
+
+app.post('/weather', (req, res) => {
+    const weatherQuery = req.body.location;
+    console.log(weatherQuery);
+    if (!weatherQuery) {
+        res.send({
+            error: "please provide an address"
+        });
+    } else {
+        geocode(weatherQuery, (error, {
+            lat,
+            lon, //destructuring
+            location
+        } = {}) => { //when destructuring remember to set its default value {}, otherwise 
+            //TypeError: Cannot destructure property 'lat' of 'undefined' as it is undefined. can happen
+            if (error) {
+                return res.send({
+                    error
+                });
+            }
+            forecast(lat, lon, (error, {
+                description,
+                currentTemp,
+                feelslike,
+                uvindex,
+                humidity
+            } = {}) => {
+                if (error) {
+                    res.send({
+                        error
+                    });
+                }
+                res.send({
+                    location,
+                    description,
+                    currentTemp,
+                    feelslike,
+                    uvindex,
+                    humidity
+                });
+            });
+        });
+    }
 });
 
 app.get('/weather', (req, res) => { //this is the weather API handler

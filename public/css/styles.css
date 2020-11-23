@@ -39,6 +39,10 @@ header a {
     text-decoration: none;
 }
 
+.hidden {
+    display: none;
+}
+
 p {
     font-size: 80%;
 }

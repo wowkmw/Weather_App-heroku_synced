@@ -9,8 +9,16 @@
         display: inline-block;
     }
 
+    .hidden {
+        display: block;
+    }
+
     button {
-        margin-left: 20px;
+        margin-left: 0px;
+    }
+
+    button:last-child {
+        margin-left: 30px;
     }
 
     header a {
@@ -20,6 +28,10 @@
 
 @media only screen and (max-width: 768px) {
     button {
+        margin-left: 0px;
+    }
+
+    button:last-child {
         margin-left: 30px;
     }
 
