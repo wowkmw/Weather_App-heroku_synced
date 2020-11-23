@@ -1,4 +1,4 @@
 # weather_App-heroku_synced
-weather-app plus web-server from the udemyNode repo, now on heroku as well
-nodejs backend with express
+Weather-app plus web-server from the udemyNode repo, now deployed live on the heroku platform!
+
 [Link to live web app...](https://jim-weather-app.herokuapp.com/)
