@@ -44,13 +44,13 @@ app.get('/help', (req, res) => {
     });
 });
 
-app.post('/weather', (req, res) => {
-    if (!req.body.location) {
+const weatherQuery = (req, res, query) => {
+    if (!query) {
         res.send({
-            error: "please provide an address"
+            error: "Please provide an address"
         });
     } else {
-        geocode(req.body.location, (error, {
+        geocode(query, (error, {
             lat,
             lon,
             location
@@ -83,48 +83,14 @@ app.post('/weather', (req, res) => {
             });
         });
     }
-});
+};
 
-app.get('/weather', (req, res) => {
-    if (!req.query.address) {
-        res.send({
-            error: "please provide an address"
-        });
-    } else {
-        geocode(req.query.address, (error, {
-            lat,
-            lon, //destructuring
-            location
-        } = {}) => { //when destructuring remember to set its default value {}, otherwise 
-            //TypeError: Cannot destructure property 'lat' of 'undefined' as it is undefined. can happen
-            if (error) {
-                return res.send({
-                    error
-                });
-            }
-            forecast(lat, lon, (error, {
-                description,
-                currentTemp,
-                feelslike,
-                uvindex,
-                humidity
-            } = {}) => {
-                if (error) {
-                    res.send({
-                        error
-                    });
-                }
-                res.send({
-                    location,
-                    description,
-                    currentTemp,
-                    feelslike,
-                    uvindex,
-                    humidity
-                });
-            });
-        });
-    }
+app.route('/weather').post((req, res) => {
+    const query = req.body.location;
+    weatherQuery(req, res, query);
+}).get((req, res) => {
+    const query = req.query.location;
+    weatherQuery(req, res, query);
 });
 
 app.get('/help/*', (req, res) => {

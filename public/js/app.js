@@ -1,13 +1,13 @@
-  const getBTN = document.querySelector('.get-btn');
+const getBTN = document.querySelector('.get-btn');
 const postBTN = document.querySelector('.post-btn');
 const search = document.querySelector('.location');
 
 getBTN.addEventListener('click', (e) => {
     e.preventDefault();
-    document.querySelector('.weather_result').textContent = 'Loading...';
+    document.querySelector('.weather_result').textContent = 'Processing...';
     const location = search.value;
 
-    fetch(`/weather?address=${location}`).then((res) => {
+    fetch(`/weather?location=${location}`).then((res) => {
         res.json().then((data) => {
             if (data.error) {
                 return document.querySelector('.weather_result').innerHTML = `Error: &nbsp${data.error}`;
@@ -29,10 +29,9 @@ getBTN.addEventListener('click', (e) => {
 
 postBTN.addEventListener('click', (e) => {
     e.preventDefault();
-    document.querySelector('.weather_result').textContent = 'Loading...';
-    const location = search.value;
+    document.querySelector('.weather_result').textContent = 'Processing...';
     const data = {
-        location
+        location: search.value
     };
     fetch('/weather', {
         method: 'POST', // or 'PUT'
