@@ -8,7 +8,7 @@ const geocode = require('./utils/geocode');
 const app = express();
 const port = process.env.PORT || 3000; //process.env.PORT so that the app works on heroku server, which can have any port as it assigns
 
-//define paths for express configuration, '__dirname' points to the current path of this app.js file
+//'__dirname' points to the current path of this app.js file
 const publicDir = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
