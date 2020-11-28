@@ -1,4 +1,4 @@
-  const getBTN = document.querySelector('.get-btn');
+const getBTN = document.querySelector('.get-btn');
 const postBTN = document.querySelector('.post-btn');
 const search = document.querySelector('.location');
 
