@@ -45,19 +45,16 @@ app.get('/help', (req, res) => {
 });
 
 app.post('/weather', (req, res) => {
-    const weatherQuery = req.body.location;
-    console.log(weatherQuery);
-    if (!weatherQuery) {
+    if (!req.body.location) {
         res.send({
             error: "please provide an address"
         });
     } else {
-        geocode(weatherQuery, (error, {
+        geocode(req.body.location, (error, {
             lat,
-            lon, //destructuring
+            lon,
             location
-        } = {}) => { //when destructuring remember to set its default value {}, otherwise 
-            //TypeError: Cannot destructure property 'lat' of 'undefined' as it is undefined. can happen
+        } = {}) => {
             if (error) {
                 return res.send({
                     error
@@ -88,7 +85,7 @@ app.post('/weather', (req, res) => {
     }
 });
 
-app.get('/weather', (req, res) => { //this is the weather API handler
+app.get('/weather', (req, res) => {
     if (!req.query.address) {
         res.send({
             error: "please provide an address"
@@ -129,21 +126,6 @@ app.get('/weather', (req, res) => { //this is the weather API handler
         });
     }
 });
-
-//testing only
-// app.get('/products', (req, res) => {
-//     if (!req.query.search) {
-//         //use return to stop code from executing outside of the if block
-//         //same as putting the rest of the codes inside an else block
-//         return res.send({
-//             error: "search term must be provided"
-//         });
-//     }
-//     console.log(req.query);
-//     res.send({
-//         products: []
-//     });
-// });
 
 app.get('/help/*', (req, res) => {
     res.render('404', {
