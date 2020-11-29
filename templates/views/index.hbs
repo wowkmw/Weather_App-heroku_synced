@@ -3,15 +3,13 @@
 
 <head>
     <title>Weather</title>
-    <link rel="icon" href="/img/partly-cloudy-day-64.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/queries.css">
+    {{>csslinks}}
 </head>
 
 <body>
     <div class="main-content">
         {{>header}}
-        <p>Type the name of a location to retrieve it's real-time weather data</p>
+        <p>Type the name of the location to retrieve it's current weather data</p>
 
         <form class="weather_search">
             <input type="text" placeholder="enter location" class="location">

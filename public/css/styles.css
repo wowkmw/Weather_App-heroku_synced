@@ -67,3 +67,8 @@ button {
     margin-left: 10px;
     font-size: 80%;
 }
+
+.git-link {
+    color: #888888;
+    text-decoration: none;
+}
