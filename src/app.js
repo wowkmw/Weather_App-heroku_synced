@@ -6,44 +6,23 @@ const forecast = require('./utils/forecast');
 const geocode = require('./utils/geocode');
 
 const app = express();
-const port = process.env.PORT || 3000; //process.env.PORT so that the app works on heroku server, which can have any port as it assigns
+const port = process.env.PORT || 3000; //process.env.PORT so that the app works on heroku
 
-//'__dirname' points to the current path of this app.js file
+// '__dirname' points to the current path of this app.js file
 const publicDir = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
 
-//setup handlebar engine and views location 
+// Setup handlebar engine and views location 
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 hbs.registerPartials(partialsPath);
 
-//setup static dir to serve such as our images and css js scripts
+//Ssetup static dir to serve such as our images and css js scripts
 app.use(express.static(publicDir));
 app.use(bodyParser.json());
 
-//setup routing for our webserver, currently only get requests
-app.get('', (req, res) => {
-    res.render('index', {
-        title: 'Weather App',
-        name: 'Jim Kuo'
-    });
-});
-
-app.get('/about', (req, res) => {
-    res.render('about', {
-        title: 'About Me',
-        name: 'Jim Kuo'
-    });
-});
-
-app.get('/help', (req, res) => {
-    res.render('help', {
-        title: 'Help Page',
-        name: 'Jim Kuo'
-    });
-});
-
+// Common functions
 const weatherQuery = (req, res, query) => {
     if (!query) {
         res.send({
@@ -85,12 +64,32 @@ const weatherQuery = (req, res, query) => {
     }
 };
 
+// Routes
+app.get('', (req, res) => {
+    res.render('index', {
+        title: 'Weather App',
+        name: 'Jim Kuo'
+    });
+});
+
+app.get('/about', (req, res) => {
+    res.render('about', {
+        title: 'About Me',
+        name: 'Jim Kuo'
+    });
+});
+
+app.get('/help', (req, res) => {
+    res.render('help', {
+        title: 'Help Page',
+        name: 'Jim Kuo'
+    });
+});
+
 app.route('/weather').post((req, res) => {
-    const query = req.body.location;
-    weatherQuery(req, res, query);
+    weatherQuery(req, res, req.body.location);
 }).get((req, res) => {
-    const query = req.query.location;
-    weatherQuery(req, res, query);
+    weatherQuery(req, res, req.query.location);
 });
 
 app.get('/help/*', (req, res) => {
