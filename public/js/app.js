@@ -47,7 +47,8 @@ postBTN.addEventListener('click', (e) => {
             Forecast: &nbsp${data.description}<br><br>
             Current Temperature: &nbsp${data.currentTemp}<br><br>
             UV index: &nbsp${data.uvindex}<br><br>
-            Humidity: &nbsp${data.humidity}`;
+            Humidity: &nbsp${data.humidity}<br><br>
+            Wind Speed: &nbsp${data.wind}&nbsp km/h`;
         }).catch((err) => {
             document.querySelector('.weather_result').textContent = 'Unexpected internal error, please try again.';
             console.log(err);
