@@ -44,7 +44,8 @@ const weatherQuery = (req, res, query) => {
                 currentTemp,
                 feelslike,
                 uvindex,
-                humidity
+                humidity,
+                wind
             } = {}) => {
                 if (error) {
                     res.send({
@@ -57,7 +58,8 @@ const weatherQuery = (req, res, query) => {
                     currentTemp,
                     feelslike,
                     uvindex,
-                    humidity
+                    humidity,
+                    wind
                 });
             });
         });

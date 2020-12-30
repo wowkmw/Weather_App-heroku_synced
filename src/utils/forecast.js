@@ -19,7 +19,8 @@
                     currentTemp: body.current.temperature,
                     feelslike: body.current.feelslike,
                     uvindex: body.current.uv_index,
-                    humidity: body.current.humidity
+                    humidity: body.current.humidity,
+                    wind: body.current.wind_speed
                 });
             }
         });
