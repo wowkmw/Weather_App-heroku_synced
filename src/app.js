@@ -20,10 +20,11 @@ hbs.registerPartials(partialsPath);
 
 //Ssetup static dir to serve such as our images and css js scripts
 app.use(express.static(publicDir));
+//Use bodyparser middleware to handle post requests
 app.use(bodyParser.json());
 
-// Common functions
-const weatherQuery = (req, res, query) => {
+// Common functions using callbacks
+const weatherQuery = (res, query) => {
     if (!query) {
         res.send({
             error: "Please provide an address"
@@ -89,9 +90,9 @@ app.get('/help', (req, res) => {
 });
 
 app.route('/weather').post((req, res) => {
-    weatherQuery(req, res, req.body.location);
+    weatherQuery(res, req.body.location);
 }).get((req, res) => {
-    weatherQuery(req, res, req.query.location);
+    weatherQuery(res, req.query.location);
 });
 
 app.get('/help/*', (req, res) => {
