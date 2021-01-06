@@ -1,8 +1,9 @@
 (() => {
     const request = require('postman-request');
 
-    const geoCode = (address, callback) => {
-        const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(address) + '.json?access_token=pk.eyJ1Ijoia213MDMwNjIiLCJhIjoiY2toMGh6YXVoMHZibTJ4azB0ajJ3NHNlcCJ9.kZQusSE9k4qX0hkztwLp4g';
+    const callbackFunc = (address, callback) => {
+        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?` +
+            `access_token=pk.eyJ1Ijoia213MDMwNjIiLCJhIjoiY2toMGh6YXVoMHZibTJ4azB0ajJ3NHNlcCJ9.kZQusSE9k4qX0hkztwLp4g`;
         //the encodeURICompnent will encode special characters in a safe manner to prevent error
         request({
             url,
@@ -24,5 +25,32 @@
         });
     };
 
-    module.exports = geoCode;
+    const promiseFunc = address => {
+        return new Promise((resolve, reject) => {
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?` +
+                `access_token=pk.eyJ1Ijoia213MDMwNjIiLCJhIjoiY2toMGh6YXVoMHZibTJ4azB0ajJ3NHNlcCJ9.kZQusSE9k4qX0hkztwLp4g`;
+            //the encodeURICompnent will encode special characters in a safe manner to prevent error
+            request({
+                url,
+                json: true
+            }, (error, {
+                body //set default value = {} when destructuring
+            } = {}) => {
+                if (error) {
+                    return reject('No internet connection!');
+                } else if (body.features.length === 0) {
+                    return reject('No matching result, try use a different search term...');
+                } else {
+                    resolve({
+                        lat: body.features[0].center[1],
+                        lon: body.features[0].center[0],
+                        location: body.features[0].place_name
+                    });
+                }
+            });
+        });
+    };
+
+    exports.callbackFunc = callbackFunc;
+    exports.promiseFunc = promiseFunc;
 })();

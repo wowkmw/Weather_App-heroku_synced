@@ -24,47 +24,67 @@ app.use(express.static(publicDir));
 app.use(bodyParser.json());
 
 // Common functions using callbacks
-const weatherQuery = (res, query) => {
+const weatherQueryAsync = async (res, query) => {
     if (!query) {
         res.send({
             error: "Please provide an address"
         });
     } else {
-        geocode(query, (error, {
-            lat,
-            lon,
-            location
+        try {
+            let geoData = await geocode.promiseFunc(query);
+            let weatherData = await forecast.promiseFunc(geoData.lat, geoData.lon);
+            res.send({
+                location: geoData.location,
+                description: weatherData.description,
+                currentTemp: weatherData.currentTemp,
+                feelslike: weatherData.feelslike,
+                uvindex: weatherData.uvindex,
+                humidity: weatherData.humidity,
+                wind: weatherData.wind
+            });
+        } catch (error) {
+            return res.send({
+                error
+            });
+        }
+    }
+};
+
+const weatherQueryCallback = (res, query) => {
+    geocode.callbackFun(query, (error, {
+        lat,
+        lon,
+        location
+    } = {}) => {
+        if (error) {
+            return res.send({
+                error
+            });
+        }
+        forecast.callbackFun(lat, lon, (error, {
+            description,
+            currentTemp,
+            feelslike,
+            uvindex,
+            humidity,
+            wind
         } = {}) => {
             if (error) {
-                return res.send({
+                res.send({
                     error
                 });
             }
-            forecast(lat, lon, (error, {
+            res.send({
+                location,
                 description,
                 currentTemp,
                 feelslike,
                 uvindex,
                 humidity,
                 wind
-            } = {}) => {
-                if (error) {
-                    res.send({
-                        error
-                    });
-                }
-                res.send({
-                    location,
-                    description,
-                    currentTemp,
-                    feelslike,
-                    uvindex,
-                    humidity,
-                    wind
-                });
             });
         });
-    }
+    });
 };
 
 // Routes
@@ -90,9 +110,9 @@ app.get('/help', (req, res) => {
 });
 
 app.route('/weather').post((req, res) => {
-    weatherQuery(res, req.body.location);
+    weatherQueryAsync(res, req.body.location);
 }).get((req, res) => {
-    weatherQuery(res, req.query.location);
+    weatherQueryAsync(res, req.query.location);
 });
 
 app.get('/help/*', (req, res) => {
