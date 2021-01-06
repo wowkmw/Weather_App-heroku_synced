@@ -26,14 +26,14 @@ app.use(bodyParser.json());
 // Common functions using callbacks
 const weatherQueryAsync = async (res, query) => {
     if (!query) {
-        res.send({
+        res.status(400).send({
             error: "Please provide an address"
         });
     } else {
         try {
             let geoData = await geocode.promiseFunc(query);
             let weatherData = await forecast.promiseFunc(geoData.lat, geoData.lon);
-            res.send({
+            res.status(200).send({
                 location: geoData.location,
                 description: weatherData.description,
                 currentTemp: weatherData.currentTemp,
@@ -43,7 +43,7 @@ const weatherQueryAsync = async (res, query) => {
                 wind: weatherData.wind
             });
         } catch (error) {
-            return res.send({
+            return res.status(500).send({
                 error
             });
         }
@@ -109,30 +109,40 @@ app.get('/help', (req, res) => {
     });
 });
 
-app.route('/weather').post((req, res) => {
-    weatherQueryAsync(res, req.body.location);
-}).get((req, res) => {
-    weatherQueryAsync(res, req.query.location);
+// app.route('/weather').post((req, res) => {
+//     weatherQueryAsync(res, req.body.location);
+// }).get((req, res) => {
+//     weatherQueryAsync(res, req.query.location);
+// });
+
+app.all('/weather', (req, res) => {
+    if (req.method == 'GET') {
+        weatherQueryAsync(res, req.query.location);
+    } else if (req.method == 'POST') {
+        weatherQueryAsync(res, req.body.location);
+    } else {
+        res.status(400).send();
+    }
 });
 
-app.get('/help/*', (req, res) => {
-    res.render('404', {
+app.all('/help/*', (req, res) => {
+    res.status(404).render('404', {
         title: '404',
         errorMsg: 'Help article not found',
         name: 'Jim Kuo'
     });
 });
 
-app.get('/about/*', (req, res) => {
-    res.render('404', {
+app.all('/about/*', (req, res) => {
+    res.status(404).render('404', {
         title: '404',
         errorMsg: 'Nothing to show here...',
         name: 'Jim Kuo'
     });
 });
 
-app.get('*', (req, res) => {
-    res.render('404', {
+app.all('*', (req, res) => {
+    res.status(404).render('404', {
         title: '404',
         errorMsg: 'Page not found',
         name: 'Jim Kuo'
