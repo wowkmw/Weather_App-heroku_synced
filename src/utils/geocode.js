@@ -1,5 +1,5 @@
 (() => {
-    const request = require('postman-request');
+    const request = require('request-promise-native');
 
     const callbackFunc = (address, callback) => {
         const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?` +
@@ -33,12 +33,8 @@
             request({
                 url,
                 json: true
-            }, (error, {
-                body //set default value = {} when destructuring
-            } = {}) => {
-                if (error) {
-                    return reject('No internet connection!');
-                } else if (body.features.length === 0) {
+            }).then(body => {
+                if (body.features.length === 0) {
                     return reject('No matching result, try use a different search term...');
                 } else {
                     resolve({
@@ -47,6 +43,9 @@
                         location: body.features[0].place_name
                     });
                 }
+            }).catch((error) => {
+                console.log(error.message);
+                return reject('No internet connection!');
             });
         });
     };

@@ -1,5 +1,5 @@
 (() => {
-    const request = require('postman-request');
+    const request = require('request-promise-native');
 
     const callbackFunc = (lat, lon, callback) => {
         const url = `http://api.weatherstack.com/current?access_key=6bb668e0d2` +
@@ -34,12 +34,8 @@
             request({
                 url,
                 json: true
-            }, (error, {
-                body //set default value = {} when destructuring
-            } = {}) => {
-                if (error) {
-                    return reject('No internet connection!');
-                } else if (body.error) {
+            }).then((body) => {
+                if (body.error) {
                     return reject(body.error.info);
                 } else {
                     resolve({
@@ -51,6 +47,9 @@
                         wind: body.current.wind_speed
                     });
                 }
+            }).catch((error) => {
+                console.log(error.message);
+                return reject('No internet connection!');
             });
         });
     };

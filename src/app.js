@@ -109,12 +109,6 @@ app.get('/help', (req, res) => {
     });
 });
 
-// app.route('/weather').post((req, res) => {
-//     weatherQueryAsync(res, req.body.location);
-// }).get((req, res) => {
-//     weatherQueryAsync(res, req.query.location);
-// });
-
 app.all('/weather', (req, res) => {
     if (req.method == 'GET') {
         weatherQueryAsync(res, req.query.location);
