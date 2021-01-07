@@ -23,7 +23,7 @@ app.use(express.static(publicDir));
 //Use bodyparser middleware to handle post requests
 app.use(bodyParser.json());
 
-// Common functions using callbacks
+// Common functions using async/await
 const weatherQueryAsync = async (res, query) => {
     if (!query) {
         res.status(400).send({
@@ -50,6 +50,7 @@ const weatherQueryAsync = async (res, query) => {
     }
 };
 
+// Common functions using callbacks
 const weatherQueryCallback = (res, query) => {
     geocode.callbackFun(query, (error, {
         lat,
