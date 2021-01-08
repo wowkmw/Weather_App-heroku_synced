@@ -23,8 +23,8 @@ footer {
 }
 
 header {
-    margin-top: 16px;
-    margin-bottom: 48px;
+    margin-top: 4%;
+    margin-bottom: 4%;
 }
 
 h1 {
@@ -34,7 +34,7 @@ h1 {
 
 header a {
     color: #888888;
-    font-size: 110%;
+    font-size: 120%;
     margin-right: 12px;
     text-decoration: none;
 }
