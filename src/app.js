@@ -110,11 +110,11 @@ app.get('/help', (req, res) => {
     });
 });
 
-app.all('/weather', (req, res) => {
+app.all('/weather', async (req, res) => {
     if (req.method == 'GET') {
-        weatherQueryAsync(res, req.query.location);
+        await weatherQueryAsync(res, req.query.location);
     } else if (req.method == 'POST') {
-        weatherQueryAsync(res, req.body.location);
+        await weatherQueryAsync(res, req.body.location);
     } else {
         res.status(400).send();
     }
