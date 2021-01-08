@@ -1,7 +1,7 @@
 (() => {
     const getBTN = document.querySelector('.get-btn');
     const postBTN = document.querySelector('.post-btn');
-    const search = document.querySelector('.location');
+    const search = document.getElementById('location');
 
     getBTN.addEventListener('click', async (e) => {
         e.preventDefault();
