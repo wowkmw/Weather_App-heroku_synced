@@ -27,7 +27,11 @@ app.use(bodyParser.json());
 const weatherQueryAsync = async (res, query) => {
     if (!query) {
         res.status(400).send({
-            error: "Please provide an address"
+            error: "Please provide an address!"
+        });
+    } else if (query.length < 3) {
+        res.status(400).send({
+            error: "Search term too short!"
         });
     } else {
         try {
@@ -48,44 +52,6 @@ const weatherQueryAsync = async (res, query) => {
             });
         }
     }
-};
-
-// Common functions using callbacks
-const weatherQueryCallback = (res, query) => {
-    geocode.callbackFun(query, (error, {
-        lat,
-        lon,
-        location
-    } = {}) => {
-        if (error) {
-            return res.send({
-                error
-            });
-        }
-        forecast.callbackFun(lat, lon, (error, {
-            description,
-            currentTemp,
-            feelslike,
-            uvindex,
-            humidity,
-            wind
-        } = {}) => {
-            if (error) {
-                res.send({
-                    error
-                });
-            }
-            res.send({
-                location,
-                description,
-                currentTemp,
-                feelslike,
-                uvindex,
-                humidity,
-                wind
-            });
-        });
-    });
 };
 
 // Routes
