@@ -86,7 +86,7 @@ app.all('/weather', async (req, res) => {
     }
 });
 
-app.all('/help/*', (req, res) => {
+app.get('/help/*', (req, res) => {
     res.status(404).render('404', {
         title: '404',
         errorMsg: 'Help article not found',
@@ -94,7 +94,7 @@ app.all('/help/*', (req, res) => {
     });
 });
 
-app.all('/about/*', (req, res) => {
+app.get('/about/*', (req, res) => {
     res.status(404).render('404', {
         title: '404',
         errorMsg: 'Nothing to show here...',
@@ -102,7 +102,7 @@ app.all('/about/*', (req, res) => {
     });
 });
 
-app.all('*', (req, res) => {
+app.get('*', (req, res) => {
     res.status(404).render('404', {
         title: '404',
         errorMsg: 'Page not found',
