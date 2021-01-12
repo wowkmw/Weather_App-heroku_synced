@@ -62,10 +62,6 @@ app.get('', (req, res) => {
     });
 });
 
-app.get('/sitemap.xml', (req, res) => {
-    res.sendFile(path.join(publicDir, 'sitemap.xml'));
-});
-
 app.get('/about', (req, res) => {
     res.render('about', {
         title: 'About Me',
