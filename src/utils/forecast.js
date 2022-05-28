@@ -1,7 +1,8 @@
 const got = require('got').default;
+const weather_token = process.env.weather_token;
 
 const promiseFunc = async (lat, lon) => {
-    const url = `http://api.weatherstack.com/current?access_key=${process.env.weather_token}query=${lat},${lon}&units=m`;
+    const url = `http://api.weatherstack.com/current?access_key=${weather_token}query=${lat},${lon}&units=m`;
     try {
         let body = await got(url).json();
         if (body.error) {
@@ -18,7 +19,7 @@ const promiseFunc = async (lat, lon) => {
         }
     } catch (error) {
         console.log(error.message);
-        throw 'No internet connection!';
+        throw error.message + ` token: ${weather_token}`;
     }
 };
 

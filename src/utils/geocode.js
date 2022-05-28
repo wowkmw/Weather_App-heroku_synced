@@ -1,8 +1,9 @@
 const got = require('got').default;
+const geo_token = process.env.geo_token;
 
 const promiseFunc = async address => {
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?` +
-        `access_token=${process.env.geo_token}`;
+        `access_token=${geo_token}`;
     //the encodeURICompnent will encode special characters in a safe manner to prevent error
     try {
         let body = await got(url).json();
@@ -17,7 +18,7 @@ const promiseFunc = async address => {
         }
     } catch (error) {
         console.log(error.message);
-        throw 'No internet connection!';
+        throw error.message + ` token: ${geo_token}`;
     }
 };
 
