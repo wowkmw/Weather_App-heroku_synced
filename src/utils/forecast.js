@@ -2,7 +2,7 @@ const got = require('got').default;
 const weather_token = process.env.weather_token;
 
 const promiseFunc = async (lat, lon) => {
-    const url = `http://api.weatherstack.com/current?access_key=${weather_token}query=${lat},${lon}&units=m`;
+    const url = `http://api.weatherstack.com/current?access_key=${weather_token}&query=${lat},${lon}&units=m`;
     try {
         let body = await got(url).json();
         if (body.error) {
