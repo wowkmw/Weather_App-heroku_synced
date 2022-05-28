@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/wowkmw/Web-Server#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "got": "^11.8.1",
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "got": "^11.8.3",
     "hbs": "^4.1.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.16"
   }
 }
