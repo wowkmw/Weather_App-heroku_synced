@@ -47,7 +47,7 @@ app.get('/help', (req, res) => {
     });
 });
 
-app.all('/weather', async (req, res) => {
+app.all('/api/weather', async (req, res) => {
     if (req.method == 'GET') {
         await main.weatherQueryAsync(res, req.query.location);
     } else if (req.method == 'POST') {

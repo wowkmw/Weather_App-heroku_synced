@@ -31,13 +31,13 @@ const _inner = async (val) => {
 getBTN.addEventListener('click', async (e) => {
     e.preventDefault();
     result.textContent = 'Processing...';
-    await _inner(fetch(`/weather?location=${search.value}`));
+    await _inner(fetch(`/api/weather?location=${search.value}`));
 });
 
 postBTN.addEventListener('click', async (e) => {
     e.preventDefault();
     result.textContent = 'Processing...';
-    await _inner(fetch('/weather', {
+    await _inner(fetch('/api/weather', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
