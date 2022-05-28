@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const hbs = require('hbs');
+const compression = require('compression');
 const main = require('./utils/main');
 
 const app = express();
@@ -21,6 +22,8 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDir));
 //Use bodyparser middleware to handle post requests
 app.use(bodyParser.json());
+//Use gzip compression
+app.use(compression());
 
 // Routes
 app.get('', (req, res) => {
