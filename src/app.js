@@ -2,8 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const hbs = require('hbs');
-const forecast = require('./utils/forecast');
-const geocode = require('./utils/geocode');
+const main = require('./utils/main');
 
 const app = express();
 const port = process.env.PORT || 3000; //process.env.PORT so that the app works on heroku
@@ -22,37 +21,6 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDir));
 //Use bodyparser middleware to handle post requests
 app.use(bodyParser.json());
-
-// Common functions using async/await
-const weatherQueryAsync = async (res, query) => {
-    if (!query) {
-        res.status(400).send({
-            error: "Please provide an address!"
-        });
-    } else if (query.length < 3) {
-        res.status(400).send({
-            error: "Search term too short!"
-        });
-    } else {
-        try {
-            let geoData = await geocode.promiseFunc(query);
-            let weatherData = await forecast.promiseFunc(geoData.lat, geoData.lon);
-            res.status(200).send({
-                location: geoData.location,
-                description: weatherData.description,
-                currentTemp: weatherData.currentTemp,
-                feelslike: weatherData.feelslike,
-                uvindex: weatherData.uvindex,
-                humidity: weatherData.humidity,
-                wind: weatherData.wind
-            });
-        } catch (error) {
-            return res.status(500).send({
-                error
-            });
-        }
-    }
-};
 
 // Routes
 app.get('', (req, res) => {
@@ -78,9 +46,9 @@ app.get('/help', (req, res) => {
 
 app.all('/weather', async (req, res) => {
     if (req.method == 'GET') {
-        await weatherQueryAsync(res, req.query.location);
+        await main.weatherQueryAsync(res, req.query.location);
     } else if (req.method == 'POST') {
-        await weatherQueryAsync(res, req.body.location);
+        await main.weatherQueryAsync(res, req.body.location);
     } else {
         res.status(400).send();
     }
