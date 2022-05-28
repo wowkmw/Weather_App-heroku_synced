@@ -18,7 +18,7 @@ const promiseFunc = async address => {
         }
     } catch (error) {
         console.log(error.message);
-        throw error.message + ` token: ${geo_token}`;
+        throw error.message;
     }
 };
 

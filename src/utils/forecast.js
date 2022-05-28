@@ -19,7 +19,7 @@ const promiseFunc = async (lat, lon) => {
         }
     } catch (error) {
         console.log(error.message);
-        throw error.message + ` token: ${weather_token}`;
+        throw error.message;
     }
 };
 
