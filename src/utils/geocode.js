@@ -2,7 +2,7 @@ const got = require('got').default;
 
 const promiseFunc = async address => {
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?` +
-        `access_token=pk.eyJ1Ijoia213MDMwNjIiLCJhIjoiY2toMGh6YXVoMHZibTJ4azB0ajJ3NHNlcCJ9.kZQusSE9k4qX0hkztwLp4g`;
+        `access_token=${process.env.geo_token}`;
     //the encodeURICompnent will encode special characters in a safe manner to prevent error
     try {
         let body = await got(url).json();
